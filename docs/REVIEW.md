@@ -2,7 +2,7 @@
 
 ## Verified
 
-OpenJDK 17 / Spring Boot 3.4.5: seven integration tests pass against H2 in PostgreSQL compatibility mode; executable JAR packaging succeeds. Tests exercise empty listing, creation/readback through JPA, missing/invalid IDs, validation, overwrite protection and malformed JSON. Linux Maven Wrapper startup was checked separately after adding its missing properties file.
+OpenJDK 17 / Spring Boot 3.4.5: nine integration tests pass against H2 in PostgreSQL compatibility mode; executable JAR packaging succeeds. Tests exercise empty listing, creation/readback through JPA, missing/invalid IDs, validation, overwrite protection and malformed JSON. Linux Maven Wrapper startup was checked separately after adding its missing properties file.
 
 ## Changes
 
@@ -13,3 +13,5 @@ Configured PostgreSQL creation explicitly in Compose and replaced the destructiv
 ## Limits
 
 Docker/PostgreSQL was not run in this environment. H2 tests do not prove PostgreSQL-specific behavior. Existing database volumes are not automatically migrated when environment variables change. The API implements list/read/create only; no update/delete/authentication layer is claimed. PostgreSQL defaults are for local demonstrations. This is not a dependency-security audit or production deployment review.
+
+The entity column lengths explicitly match the 100/500-character validation limits. Boundary tests verify that a 500-character technology stack persists and 501 characters is rejected, avoiding a validation/database-schema mismatch.

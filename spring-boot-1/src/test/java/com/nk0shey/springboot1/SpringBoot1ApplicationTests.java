@@ -57,4 +57,14 @@ class SpringBoot1ApplicationTests {
         mvc.perform(post(API).contentType(MediaType.APPLICATION_JSON).content("not json"))
             .andExpect(status().isBadRequest());
     }
+    @Test void stackWithinDocumentedLimitPersists() throws Exception {
+        String body = mapper.writeValueAsString(new SoftwareEngineer(0, "Demo", "x".repeat(500)));
+        mvc.perform(post(API).contentType(MediaType.APPLICATION_JSON).content(body))
+            .andExpect(status().isCreated()).andExpect(jsonPath("$.techStack").value("x".repeat(500)));
+    }
+    @Test void stackBeyondLimitIs400() throws Exception {
+        String body = mapper.writeValueAsString(new SoftwareEngineer(0, "Demo", "x".repeat(501)));
+        mvc.perform(post(API).contentType(MediaType.APPLICATION_JSON).content(body))
+            .andExpect(status().isBadRequest());
+    }
 }

@@ -2,6 +2,7 @@ package com.nk0shey.springboot1;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,9 +17,11 @@ public class SoftwareEngineer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotBlank
+    @Column(length = 100)
     @Size(max = 100)
     private String name;
     @NotBlank
+    @Column(length = 500)
     @Size(max = 500)
     private String techStack;
 

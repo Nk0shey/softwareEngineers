@@ -72,6 +72,8 @@ mvn test
 mvn package
 ```
 
-Seven integration tests run the Spring context, HTTP controller layer and JPA repository against an isolated H2 database in PostgreSQL compatibility mode. Docker/PostgreSQL is not needed for tests. The test Mockito configuration avoids requiring a dynamically attached JVM agent.
+Nine integration tests run the Spring context, HTTP controller layer and JPA repository against an isolated H2 database in PostgreSQL compatibility mode. Docker/PostgreSQL is not needed for tests. The test Mockito configuration avoids requiring a dynamically attached JVM agent.
 
-Verified on Linux/OpenJDK 17: all seven tests pass and executable-JAR packaging succeeds. PostgreSQL/Docker startup was not executed in this environment, so H2 results do not establish full PostgreSQL compatibility. The API currently implements list, read and create operations. See [review notes](docs/REVIEW.md) for changes and limits.
+Verified on Linux/OpenJDK 17: all nine tests pass and executable-JAR packaging succeeds. PostgreSQL/Docker startup was not executed in this environment, so H2 results do not establish full PostgreSQL compatibility. The API currently implements list, read and create operations. See [review notes](docs/REVIEW.md) for changes and limits.
+
+The entity column lengths explicitly match the 100/500-character validation limits. Boundary tests verify that a 500-character technology stack persists and 501 characters is rejected, avoiding a validation/database-schema mismatch.
