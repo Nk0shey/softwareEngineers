@@ -1,0 +1,8 @@
+**/target/
+**/out/
+**/build-audit/
+*.class
+.idea/
+*.iml
+.DS_Store
+.env

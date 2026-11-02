@@ -1,6 +1,9 @@
 package com.nk0shey.springboot1;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import jakarta.validation.Valid;
+import java.net.URI;
 
 import java.util.List;
 
@@ -27,8 +30,9 @@ public class SoftwareEngineerController {
     }
 
     @PostMapping
-    public void addNewSoftwareEngineer(@RequestBody SoftwareEngineer softwareEngineer) {
-        softwareEngineerService.insertSoftwareEngineer(softwareEngineer);
+    public ResponseEntity<SoftwareEngineer> addNewSoftwareEngineer(@Valid @RequestBody SoftwareEngineer softwareEngineer) {
+        SoftwareEngineer saved = softwareEngineerService.insertSoftwareEngineer(softwareEngineer);
+        return ResponseEntity.created(URI.create("/api/v1/software-engineers/" + saved.getId())).body(saved);
     }
 
 }

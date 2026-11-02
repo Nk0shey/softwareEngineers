@@ -1,6 +1,8 @@
 package com.nk0shey.springboot1;
 
 import org.springframework.stereotype.Service;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -17,12 +19,18 @@ public class SoftwareEngineerService {
         return softwareEngineerRepository.findAll();
     }
 
-    public void insertSoftwareEngineer(SoftwareEngineer softwareEngineer) {
-        softwareEngineerRepository.save(softwareEngineer);
+    public SoftwareEngineer insertSoftwareEngineer(SoftwareEngineer softwareEngineer) {
+        if (softwareEngineer.getId() != 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "New records must not specify an ID");
+        }
+        return softwareEngineerRepository.save(softwareEngineer);
     }
 
     public SoftwareEngineer getSoftwareEngineerById(Integer id) {
+        if (id == null || id < 1) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID must be positive");
+        }
         return softwareEngineerRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException(id + " not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, id + " not found"));
     }
 }

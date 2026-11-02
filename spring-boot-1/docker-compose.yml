@@ -1,21 +1,18 @@
 services:
   db:
-    container_name: postgres-spring-boot
-    image: postgres:latest
+    image: postgres:16-alpine
     environment:
-      POSTGRES_USER: nk0shey
-      POSTGRES_PASSWORD: password
-      PGDATA: /data/postgres
+      POSTGRES_DB: ${DB_NAME:-nk0sheycode}
+      POSTGRES_USER: ${DB_USER:-nk0shey}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-local-development-only}
     volumes:
-      - db:/data/postgres
+      - db:/var/lib/postgresql/data
     ports:
-      - "5332:5432"
-    networks:
-      - db
-    restart: unless-stopped
-
-networks:
-  db:
-    driver: bridge
+      - "127.0.0.1:5332:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 volumes:
   db:
